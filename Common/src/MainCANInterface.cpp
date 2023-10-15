@@ -48,17 +48,6 @@ int MainCANInterface::send(CANStruct *can_struct) {
     return result;
 }
 
-// set hierachy based on message.id -> convert to interval time
-// new CAN message ->
-// hashmap {message.id, message + /0 + time}
-// lock
-// ECUMOTORCMDS: 01010101    17171s
-// unlock
-// ECUPOWERAUZ: 010101       8383s
-
-// 2nd thread
-// look through hashmap and determine if interval has been reached
-// set a delay on this thread
 
 void MainCANInterface::message_handler() {
     while (true) {
@@ -150,6 +139,11 @@ void MainCANInterface::message_handler() {
 }
 
 void MainCANInterface::send_to_pi(CANMessage *message, uint16_t message_id) {
+    // MOVE THIS TO ECU
+    // GET RID OF SEND_TO_PI IN MAINCANINTERFACE .h FILE
+    // ADD SEND_TO_PI TO ECUCANINTERFACE .h FILE
+    // ADD SEND_TO_PI TO ECUCANINTERFACE .cpp FILE
+    
     if (uartTX != NC) {
         char message_data[17];
         CANInterface::write_CAN_message_data_to_buffer(message_data,
