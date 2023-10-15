@@ -48,18 +48,6 @@ int MainCANInterface::send(CANStruct *can_struct) {
     return result;
 }
 
-// set hierachy based on message.id -> convert to interval time
-// new CAN message ->
-// hashmap {message.id, message + /0 + time}
-// lock
-// ECUMOTORCMDS: 01010101    17171s
-// unlock
-// ECUPOWERAUZ: 010101       8383s
-
-// 2nd thread
-// look through hashmap and determine if interval has been reached
-// set a delay on this thread
-
 void MainCANInterface::message_handler() {
     while (true) {
         ThisThread::flags_wait_all(0x1);
