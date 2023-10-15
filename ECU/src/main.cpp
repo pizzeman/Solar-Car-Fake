@@ -129,3 +129,20 @@ void ECUCANInterface::handle(BPSPackInformation *can_struct) {
     charge_relay_status = can_struct->charge_relay_status;
 }
 
+
+// set hierachy based on message.id -> convert to interval time
+// new CAN message ->
+// hashmap {message.id, message + /0 + time}
+// lock
+// ECUMOTORCMDS: 01010101    17171s
+// unlock
+// ECUPOWERAUZ: 010101       8383s
+
+// 2nd thread
+// look through hashmap and determine if interval has been reached
+// set a delay on this thread            
+
+// take out the send to pi stuff and override 
+
+
+// put can messages here
