@@ -11,6 +11,8 @@ class ECUCANInterface : public MainCANInterface {
     
     void handle(MotorControllerPowerStatus *can_struct) override;
     void handle(BPSPackInformation *can_struct) override;
+    // take the handle functions from main can interface and override them here
+    void send_to_pi(CANMessage *message, uint16_t message_id);
 };
 
 #endif

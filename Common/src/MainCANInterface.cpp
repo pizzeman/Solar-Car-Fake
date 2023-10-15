@@ -138,6 +138,11 @@ void MainCANInterface::message_handler() {
 }
 
 void MainCANInterface::send_to_pi(CANMessage *message, uint16_t message_id) {
+    // GET RID OF SEND_TO_PI IN MAINCANINTERFACE .h FILE - 
+    // ADD SEND_TO_PI TO ECUCANINTERFACE .h FILE - done
+    // ADD SEND_TO_PI TO ECUCANINTERFACE .cpp FILE - done
+    
+    
     if (uartTX != NC) {
         char message_data[17];
         CANInterface::write_CAN_message_data_to_buffer(message_data,
@@ -157,4 +162,3 @@ void MainCANInterface::send_to_pi(CANMessage *message, uint16_t message_id) {
         static BufferedSerial raspberry_pi(uartTX, uartRX, 9600);
         raspberry_pi.write(data_to_pi, sizeof(data_to_pi));
     }
-}
