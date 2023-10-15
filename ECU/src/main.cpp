@@ -129,6 +129,28 @@ void ECUCANInterface::handle(BPSPackInformation *can_struct) {
     charge_relay_status = can_struct->charge_relay_status;
 }
 
+void ECUCANInterface::send_to_pi(CANMessage *message, uint16_t message_id) {
+    if (uartTX != NC) {
+        char message_data[17];
+        CANInterface::write_CAN_message_data_to_buffer(message_data,
+                                                           message);
+        log_debug("Sending test message to PI");
+        log_debug("Message id is %d", message->id);
+        char data_to_pi[25];
+        data_to_pi[0] = 249;
+        data_to_pi[1] = message->id / 0x0100;; //% 0x1000;
+        data_to_pi[2] = message->id % (0x0100);
+        for (int i = 0; i < 17; i++) {
+            data_to_pi[i+3] = message_data[i];
+        }
+        data_to_pi[24] = 250;
+
+        log_debug("Raw UART message %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", data_to_pi[0], data_to_pi[1], data_to_pi[2], data_to_pi[3], data_to_pi[4], data_to_pi[5], data_to_pi[6], data_to_pi[7], data_to_pi[8], data_to_pi[9], data_to_pi[10], data_to_pi[11], data_to_pi[12], data_to_pi[13], data_to_pi[14], data_to_pi[15], data_to_pi[16], data_to_pi[17], data_to_pi[18], data_to_pi[19], data_to_pi[20], data_to_pi[21], data_to_pi[22], data_to_pi[23], data_to_pi[24]);
+        static BufferedSerial raspberry_pi(uartTX, uartRX, 9600);
+        raspberry_pi.write(data_to_pi, sizeof(data_to_pi));
+    }
+}
+
 
 // set hierachy based on message.id -> convert to interval time
 // new CAN message ->
