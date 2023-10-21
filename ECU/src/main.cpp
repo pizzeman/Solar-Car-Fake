@@ -9,6 +9,7 @@
 #include <math.h>
 #include <mbed.h>
 #include <rtos.h>
+#include <unordered_map>
 
 #define LOG_LEVEL              LOG_DEBUG
 #define MAIN_LOOP_PERIOD       1s
@@ -150,6 +151,16 @@ void ECUCANInterface::send_to_pi(CANMessage *message, uint16_t message_id) {
         raspberry_pi.write(data_to_pi, sizeof(data_to_pi));
     }
 }
+
+// key: message id, value: message + time
+std::unordered_map<int, std::string> statusMessages{
+    {200, "Success"},
+    {404, "This is not the page you're looking for"},
+    {403, "Unauthorized"},
+    {418, "I'm a teapot"},
+  };
+
+// struct that has the different rate limits?
 
 
 // set hierachy based on message.id -> convert to interval time

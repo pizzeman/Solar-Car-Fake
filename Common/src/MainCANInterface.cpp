@@ -64,7 +64,8 @@ void MainCANInterface::message_handler() {
             log_debug("Received CAN message with ID 0x%03X Length %d Data 0x%s",
                       message.id, message.len, message_data);
 
-
+            // make this a switch statement
+            // take out references to send_to_pi
             if (message.id == ECUMotorCommands_MESSAGE_ID) {
                 send_to_pi(&message, message.id);
                 ECUMotorCommands can_struct;
