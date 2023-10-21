@@ -48,7 +48,6 @@ int MainCANInterface::send(CANStruct *can_struct) {
     return result;
 }
 
-
 void MainCANInterface::message_handler() {
     while (true) {
         ThisThread::flags_wait_all(0x1);
